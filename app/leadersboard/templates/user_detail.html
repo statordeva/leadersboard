@@ -1,0 +1,17 @@
+{% extends "master.html" %}
+
+{% block title %}Leaders Board / {{ object.name }}{% endblock %}
+
+{% block content %}
+<h3 class="mb-3">User Detail</h3>
+
+<a href="/board" class="btn btn-secondary mb-3">Go Back</a>
+
+<ul class="list-group">
+    <li class="list-group-item">Name: {{ object.name }}</li>
+    <li class="list-group-item">Age: {{ object.age }}</li>
+    <li class="list-group-item">Points: {{ object.points }}</li>
+    <li class="list-group-item">Address: {{ object.address }}</li>
+</ul>
+
+{% endblock %}

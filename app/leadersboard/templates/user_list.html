@@ -1,0 +1,63 @@
+{% extends "master.html" %}
+
+{% block title %}Leaders Board{% endblock %}
+
+{% block content %}
+<h3 class="mb-3">Leaders Board</h3>
+
+<div class="d-flex justify-content-between">
+    <form method="POST">
+        {% csrf_token %}
+        <button class="btn btn-primary mb-3">Add User</button>
+    </form>
+
+    <a href="/board/summary" target="_blank" class="btn btn-secondary mb-3">Summary With Average Age</a>
+</div>
+
+{% if list %}
+<table class="table">
+    <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Points</th>
+        <th colspan="2"></th>
+    </tr>
+    {% for user in list %}
+        <tr>
+            <td>
+                <form action="/board/{{ user.id }}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+            <td><a href="/board/{{ user.id }}">{{ user.name }}</a></td>
+            <td>{{ user.points }} Points</td>
+            <td>
+                <form action="/board/{{ user.id }}/increment" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-secondary">+</button>
+                </form>
+            </td>
+            <td>
+                <form action="/board/{{ user.id }}/decrement" method="POST">
+                    {% csrf_token %}
+                    {% if user.points == 0 %}
+                        <button class="btn btn-secondary" disabled>-</button>
+                    {% else %}
+                        <button class="btn btn-secondary">-</button>
+                    {% endif %}
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <div class="alert alert-light" role="alert">
+        <h4 class="alert-heading">No users found.</h4>
+        <p>Press 'Add User' button to add more users.</p>
+        <hr>
+        <p class="mb-0">Or try to run `python manage.py usersseed 5` command to seed users.</p>
+    </div>
+{% endif %}
+
+{% endblock %}
